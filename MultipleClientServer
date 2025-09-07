@@ -14,16 +14,27 @@ class Threading extends Thread {
         try {
             Scanner in = new Scanner(client.getInputStream());
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+            Scanner console = new Scanner(System.in); // for server input
 
             while (true) {
-                String message = in.nextLine();
-                System.out.println("Client says: " + message);
+                // receive message from client
+                if (in.hasNextLine()) {
+                    String message = in.nextLine();
+                    System.out.println("Client says: " + message);
 
-                if (message.equalsIgnoreCase("exit")) {
-                    out.println("Goodbye!");
+                    if (message.equalsIgnoreCase("exit")) {
+                        out.println("Goodbye!");
+                        break;
+                    }
+                }
+
+                // server can type a reply
+                System.out.print("Server: ");
+                String reply = console.nextLine();
+                out.println(reply);
+
+                if (reply.equalsIgnoreCase("exit")) {
                     break;
-                } else {
-                    out.println("Server received: " + message);
                 }
             }
 
