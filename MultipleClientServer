@@ -34,8 +34,8 @@ class Threading extends Thread {
     }
 }
 
-// Server class
-public class Server {
+// Server class 
+public class MultipleClientServer {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(9090);
         System.out.println("Server is running on port 9090...");
