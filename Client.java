@@ -1,26 +1,40 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Client {
-    public static void main(String args[]) throws IOException
-    {
-        // create a socket to connect to the server running on localhost at port number 9090
+    public static void main(String args[]) throws IOException {
+        // Connect to server on localhost at port 9090
         Socket socket = new Socket("localhost", 9090);
-
-        // Setup output stream to send data to the server
+        System.out.println("Connected to server!");
+        
+        // Setup input/output streams
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        Scanner in = new Scanner(socket.getInputStream());
+        Scanner scanner = new Scanner(System.in);
 
-        // Setup input stream to receive data from the server
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String message;
+        while (true) {
+            System.out.print("You: ");
+            message = scanner.nextLine();
 
-        // Send message to the server
-        out.println("Hello from client!");
+            // send to server
+            out.println(message);
 
-        // Receive response from the server
-        String response = in.readLine();
-        System.out.println("Server says: " + response);
+            // get reply from server
+            if (in.hasNextLine()) {
+                String response = in.nextLine();
+                System.out.println("Server says: " + response);
+            }
 
-        // Close the socket
+            // exit condition
+            if (message.equalsIgnoreCase("exit")) {
+                break;
+            }
+        }
+
         socket.close();
+        scanner.close();
+        in.close();
     }
 }
