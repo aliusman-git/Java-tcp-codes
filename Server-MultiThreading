@@ -43,7 +43,7 @@ public class ServerMultiThreading {
             System.out.println("New client connected!");
 
             Threading t = new Threading(client);
-            t.start();   // **THIS is true multithreading**
+            t.start();   
         }
     }
 }
